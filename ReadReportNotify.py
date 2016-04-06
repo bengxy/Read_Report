@@ -66,10 +66,14 @@ for i in range(len(links)):
 		url = 'http://cspo.zju.edu.cn/'+links[i]
 		req = urllib.request.Request(url)
 		response = urllib.request.urlopen(req)
-		page = response.read().decode('gb2312')
-		if '读书报告' in page:
-			toSend =toSend + str(i)+'. '+titles[i]+'\nhttp://cspo.zju.edu.cn/'+links[i]+'\n'
-		update = True
+		try:
+			page = response.read().decode('gb2312')
+		except BaseException:
+			print('page decode Error with gb2312 in url: ', url)
+		else:
+			if '读书报告' in page:
+				toSend =toSend + str(i)+'. '+titles[i]+'\nhttp://cspo.zju.edu.cn/'+links[i]+'\n'
+			update = True
 
 if not (toSend==''):
 	if hand_input_passwd:
